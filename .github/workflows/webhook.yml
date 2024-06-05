@@ -1,0 +1,44 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "build"
+          command: |
+            echo Hello, World!
+
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "deploy"
+          command: |
+            # The time a deploy started
+            start_time=`date '+%Y-%m-%dT%H:%M:%S%z'`
+
+            # Some deployment tasks here ...
+            echo Hello, World!
+
+            # Send the request to DevLake after deploy
+            # The values start with a '$CIRCLE_' are CircleCI's built-in variables
+            curl http://172.16.200.67:4000/api/rest/plugins/webhook/connections/2/issues -X 'POST' -H 'Authorization: Bearer ' -d '{
+        "issue_key":"DLK-1234",
+        "title":"a feature from DLK",
+        "type":"INCIDENT",
+        "original_status":"TODO",
+        "status":"TODO",
+        "created_date":"2020-01-01T12:00:00+00:00",
+        "updated_date":"2020-01-01T12:00:00+00:00"
+     }'
+
+workflows:
+  build_and_deploy_workflow:
+    jobs:
+      - build
+      - deploy
