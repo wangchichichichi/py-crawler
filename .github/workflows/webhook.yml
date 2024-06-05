@@ -27,7 +27,7 @@ jobs:
 
             # Send the request to DevLake after deploy
             # The values start with a '$CIRCLE_' are CircleCI's built-in variables
-            curl http://172.16.200.67:4000/api/rest/plugins/webhook/connections/2/issues -X 'POST' -H 'Authorization: Bearer ' -d '{
+            curl http://172.16.200.67:4000/api/rest/plugins/webhook/connections/7/issues -X 'POST' -H 'Authorization: Bearer ' -d '{
         "issue_key":"DLK-1234",
         "title":"a feature from DLK",
         "type":"INCIDENT",
